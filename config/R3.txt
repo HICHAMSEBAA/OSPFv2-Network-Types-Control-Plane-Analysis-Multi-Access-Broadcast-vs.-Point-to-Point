@@ -1,0 +1,42 @@
+!
+interface Loopback0
+ ip address 10.255.255.3 255.255.255.255
+ ip ospf 1 area 0
+!
+interface GigabitEthernet0/0
+ description TRANSIT_SW2_192.168.2.0
+ ip address 192.168.2.3 255.255.255.0
+ ip ospf 1 area 0
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ description P2P_LINK_TO_R4
+ ip address 192.168.4.3 255.255.255.0
+ ip ospf network point-to-point
+ ip ospf 1 area 0
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ description P2P_LINK_TO_R5
+ ip address 192.168.6.3 255.255.255.0
+ ip ospf network point-to-point
+ ip ospf 1 area 0
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!         
+!
+router ospf 1
+ router-id 10.255.255.3
+ log-adjacency-changes detail
+ auto-cost reference-bandwidth 10000
+ passive-interface default
+ no passive-interface GigabitEthernet0/0
+ no passive-interface GigabitEthernet0/1
+ no passive-interface GigabitEthernet0/2
+!

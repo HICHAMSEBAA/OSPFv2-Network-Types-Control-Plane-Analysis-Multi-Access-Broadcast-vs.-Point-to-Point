@@ -1,0 +1,28 @@
+!
+interface Loopback0
+ ip address 10.255.255.1 255.255.255.255
+ ip ospf 1 area 0
+!
+interface GigabitEthernet0/0
+ description ACCESS_LAN_192.168.1.0
+ ip address 192.168.1.1 255.255.255.0
+ ip ospf 1 area 0
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ description TRANSIT_SW2_192.168.2.0
+ ip address 192.168.2.1 255.255.255.0
+ ip ospf 1 area 0
+ duplex auto
+ speed auto
+ media-type rj45
+!
+router ospf 1
+ router-id 10.255.255.1
+ log-adjacency-changes detail
+ auto-cost reference-bandwidth 100000
+ passive-interface default
+ no passive-interface GigabitEthernet0/1
+!

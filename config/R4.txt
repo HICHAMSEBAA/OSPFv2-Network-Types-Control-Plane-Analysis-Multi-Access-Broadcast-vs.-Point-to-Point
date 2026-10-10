@@ -1,0 +1,39 @@
+!
+interface Loopback0
+ ip address 10.255.255.4 255.255.255.255
+ ip ospf 1 area 0
+!
+interface GigabitEthernet0/0
+ description P2P_LINK_TO_R2
+ ip address 192.168.3.4 255.255.255.0
+ ip ospf network point-to-point
+ ip ospf 1 area 0
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ description P2P_LINK_TO_R3
+ ip address 192.168.4.4 255.255.255.0
+ ip ospf network point-to-point
+ ip ospf 1 area 0
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ description ACCESS_LAN_192.168.5.0
+ ip address 192.168.5.1 255.255.255.0
+ ip ospf 1 area 0
+ duplex auto
+ speed auto
+ media-type rj45
+!
+router ospf 1
+ router-id 10.255.255.4
+ log-adjacency-changes detail
+ auto-cost reference-bandwidth 100000
+ passive-interface default
+ no passive-interface GigabitEthernet0/0
+ no passive-interface GigabitEthernet0/1
+!
